@@ -1,6 +1,8 @@
 CREATE DATABASE IF NOT EXISTS controle_patrimonio
 DEFAULT CHARACTER SET utf8mb4
 DEFAULT COLLATE utf8mb4_unicode_ci;
+
+USE controle_patrimonio;
    
 CREATE TABLE IF NOT EXISTS responsavel (
 	id INT AUTO_INCREMENT PRIMARY KEY,
@@ -10,9 +12,9 @@ CREATE TABLE IF NOT EXISTS responsavel (
 	telefone VARCHAR(20),
 	setor VARCHAR(50),
 	cargo VARCHAR(50),
-	sexo CHAR(1) NOT NULL,
+	sexo ENUM('M','F', 'O', 'N') NOT NULL,
 	data_cadastro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	status TINYINT NOT NULL -- 1 ATIVO, 0 INATIVO
+	status TINYINT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS patrimonio (
@@ -22,11 +24,6 @@ CREATE TABLE IF NOT EXISTS patrimonio (
 	numero_patrimonio VARCHAR(50) UNIQUE,
 
 	status TINYINT NOT NULL, 
-	-- 1 DISPONIVEL
-	-- 2 EM_USO
-	-- 3 EM_MANUTENCAO
-	-- 4 EXTRAVIADO
-	-- 5 BAIXADO
 
 	id_responsavel INT,
 
@@ -40,14 +37,6 @@ CREATE TABLE IF NOT EXISTS movimentacao_patrimonio (
 	id_patrimonio INT NOT NULL,
 
 	tipo_movimentacao TINYINT NOT NULL,
-	-- 1 CADASTRO
-	-- 2 ATRIBUICAO
-	-- 3 TRANSFERENCIA
-	-- 4 MANUTENCAO
-	-- 5 RETORNO
-	-- 6 EXTRAVIO
-	-- 7 BAIXA
-	-- 8 INVENTARIO
 
 	status_anterior TINYINT,
 	status_atual TINYINT NOT NULL,

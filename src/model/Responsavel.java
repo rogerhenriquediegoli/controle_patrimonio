@@ -6,7 +6,7 @@ import src.enums.StatusResponsavelEnum;
 
 public class Responsavel {
 
-    private Integer id;
+    private Long id;
     private String nomeCompleto;
     private String cpf;
     private String email;
@@ -17,11 +17,36 @@ public class Responsavel {
     private LocalDateTime dataCadastro;
     private StatusResponsavelEnum status;
 
-    public Integer getId() {
+    public Responsavel(){};
+
+    public Responsavel(
+            Long id,
+            String nomeCompleto,
+            String cpf,
+            String email,
+            String telefone,
+            String setor,
+            String cargo,
+            SexoEnum sexo,
+            LocalDateTime dataCadastro,
+            StatusResponsavelEnum status) {
+        this.id = id;
+        this.nomeCompleto = nomeCompleto;
+        this.cpf = cpf;
+        this.email = email;
+        this.telefone = telefone;
+        this.setor = setor;
+        this.cargo = cargo;
+        this.sexo = sexo;
+        this.dataCadastro = dataCadastro;
+        this.status = status;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

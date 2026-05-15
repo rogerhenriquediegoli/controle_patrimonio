@@ -2,20 +2,20 @@ package src.enums;
 
 public enum SexoEnum {
 
-    MASCULINO('M', "Masculino"),
-    FEMININO('F', "Feminino"),
-    OUTRO('O', "Outro"),
-    NAO_INFORMADO('N', "Não informado");
+    MASCULINO("M", "Masculino"),
+    FEMININO("F", "Feminino"),
+    OUTRO("O", "Outro"),
+    NAO_INFORMADO("N", "Não informado");
 
-    private final Character codigo;
+    private final String codigo;
     private final String descricao;
 
-    SexoEnum(Character codigo, String descricao) {
+    SexoEnum(String codigo, String descricao) {
         this.codigo = codigo;
         this.descricao = descricao;
     }
 
-    public Character getCodigo() {
+    public String getCodigo() {
         return codigo;
     }
 
@@ -23,7 +23,7 @@ public enum SexoEnum {
         return descricao;
     }
 
-    public static SexoEnum fromCodigo(Character codigo) {
+    public static SexoEnum fromCodigo(String codigo) {
         for (SexoEnum s : values()) {
             if (s.codigo == codigo) return s;
         }
