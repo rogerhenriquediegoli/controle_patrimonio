@@ -7,7 +7,7 @@ import src.enums.TipoMovimentacaoEnum;
 public class MovimentacaoPatrimonio {
 
     private Long id;
-    private Patrimonio patrimonio;
+    private Long idPatrimonio;
     private TipoMovimentacaoEnum tipoMovimentacao;
     private StatusPatrimonioEnum statusAnterior;
     private StatusPatrimonioEnum statusAtual;
@@ -15,6 +15,30 @@ public class MovimentacaoPatrimonio {
     private Long idResponsavelAtual;
     private LocalDateTime dataMovimentacao;
     private String observacao;
+
+    public MovimentacaoPatrimonio() {}
+
+    public MovimentacaoPatrimonio(
+            Long id,
+            Long idPatrimonio,
+            TipoMovimentacaoEnum tipoMovimentacao,
+            StatusPatrimonioEnum statusAnterior,
+            StatusPatrimonioEnum statusAtual,
+            Long idResponsavelAnterior,
+            Long idResponsavelAtual,
+            LocalDateTime dataMovimentacao,
+            String observacao) {
+
+        this.id = id;
+        this.idPatrimonio = idPatrimonio;
+        this.tipoMovimentacao = tipoMovimentacao;
+        this.statusAnterior = statusAnterior;
+        this.statusAtual = statusAtual;
+        this.idResponsavelAnterior = idResponsavelAnterior;
+        this.idResponsavelAtual = idResponsavelAtual;
+        this.dataMovimentacao = dataMovimentacao;
+        this.observacao = observacao;
+    }
 
     public Long getId() {
         return id;
@@ -24,12 +48,12 @@ public class MovimentacaoPatrimonio {
         this.id = id;
     }
 
-    public Patrimonio getPatrimonio() {
-        return patrimonio;
+    public Long getIdPatrimonio() {
+        return idPatrimonio;
     }
 
-    public void setPatrimonio(Patrimonio patrimonio) {
-        this.patrimonio = patrimonio;
+    public void setIdPatrimonio(Long idPatrimonio) {
+        this.idPatrimonio = idPatrimonio;
     }
 
     public TipoMovimentacaoEnum getTipoMovimentacao() {

@@ -138,7 +138,8 @@ public class PatrimonioDaoImpl implements PatrimonioDao {
 
     @Override
     public Long countByIdResponsavel(Long idResponsavel) {
-        try (Connection connection = DbSession.startDbSession();) {
+        try (Connection connection = DbSession.startDbSession()) {
+
             final String SQL = "SELECT COUNT(1) FROM patrimonio WHERE id_responsavel = ?";
             PreparedStatement ps = connection.prepareStatement(SQL);
             ps.setLong(1, idResponsavel);
