@@ -10,6 +10,21 @@ public class Patrimonio {
     private StatusPatrimonioEnum status;
     private Long idResponsavel;
 
+    public Patrimonio() {}
+
+    public Patrimonio(
+            Long id,
+            String descricao,
+            String numeroPatrimonio,
+            StatusPatrimonioEnum status,
+            Long idResponsavel) {
+        this.id = id;
+        this.descricao = descricao;
+        this.numeroPatrimonio = numeroPatrimonio;
+        this.status = status;
+        this.idResponsavel = idResponsavel;
+    }
+
     public Long getId() {
         return id;
     }

@@ -46,20 +46,18 @@ public class ResponsavelDaoImpl implements ResponsavelDao {
 
     @Override
     public List<Responsavel> findAll() {
-        try {
-            Connection dbConnection = DbSession.startDbSession();
+        try(Connection dbConnection = DbSession.startDbSession()) {
 
             final String SQL = "SELECT * FROM responsavel";
             PreparedStatement ps = dbConnection.prepareStatement(SQL);
 
-            List<Responsavel> responsaveis = new ArrayList<>();
+            List<Responsavel> list = new ArrayList<>();
             ResultSet rs = ps.executeQuery();
 
             while (rs.next())
-                responsaveis.add(mapResultSetToObject(rs));
+                list.add(mapResultSetToObject(rs));
 
-            dbConnection.close();
-            return responsaveis;
+            return list;
         } catch (Exception e) {
             e.printStackTrace();
             return new ArrayList<>();
@@ -68,8 +66,7 @@ public class ResponsavelDaoImpl implements ResponsavelDao {
 
     @Override
     public Responsavel findById(Long id) {
-        try {
-            Connection dbConnection = DbSession.startDbSession();
+        try(Connection dbConnection = DbSession.startDbSession()) {
 
             final String SQL = "SELECT * FROM responsavel WHERE id = ?";
             PreparedStatement ps = dbConnection.prepareStatement(SQL);
@@ -79,7 +76,6 @@ public class ResponsavelDaoImpl implements ResponsavelDao {
 
             Responsavel responsavel = rs.next() ? mapResultSetToObject(rs) : null;
 
-            dbConnection.close();
             return responsavel;
         } catch (Exception e) {
             e.printStackTrace();
@@ -89,7 +85,8 @@ public class ResponsavelDaoImpl implements ResponsavelDao {
 
     @Override
     public void save(Responsavel responsavel) {
-        try {
+        try(Connection connection = DbSession.startDbSession()) {
+
             final String SQL = """
                         INSERT INTO responsavel (
                             nome_completo,
@@ -102,10 +99,7 @@ public class ResponsavelDaoImpl implements ResponsavelDao {
                             status
                         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                     """;
-
-            Connection connection = DbSession.startDbSession();
             PreparedStatement ps = connection.prepareStatement(SQL);
-
             mapObjectToPreparedStatement(ps, responsavel, false);
 
             ps.executeUpdate();
@@ -116,7 +110,8 @@ public class ResponsavelDaoImpl implements ResponsavelDao {
 
     @Override
     public void update(Responsavel responsavel) {
-        try {
+        try(Connection connection = DbSession.startDbSession()) {
+
             final String SQL = """
                         UPDATE responsavel SET
                             nome_completo = ?,
@@ -129,10 +124,7 @@ public class ResponsavelDaoImpl implements ResponsavelDao {
                             status = ?
                         WHERE id = ?
                     """;
-
-            Connection connection = DbSession.startDbSession();
             PreparedStatement ps = connection.prepareStatement(SQL);
-
             mapObjectToPreparedStatement(ps, responsavel, true);
 
             ps.executeUpdate();
@@ -143,16 +135,13 @@ public class ResponsavelDaoImpl implements ResponsavelDao {
 
     @Override
     public void deleteById(Long id) {
-        try {
-            Connection dbConnection = DbSession.startDbSession();
+        try(Connection dbConnection = DbSession.startDbSession()) {
 
             final String SQL = "DELETE FROM responsavel WHERE id = ?";
             PreparedStatement ps = dbConnection.prepareStatement(SQL);
-
             ps.setLong(1, id);
-            ps.executeUpdate();
 
-            dbConnection.close();
+            ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
