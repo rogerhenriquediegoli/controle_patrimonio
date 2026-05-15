@@ -14,4 +14,6 @@ public interface PatrimonioDao {
     void update(Patrimonio patrimonio);
 
     void deleteById(Long id);
+    
+    Long countByIdResponsavel(Long idResponsavel);
 }

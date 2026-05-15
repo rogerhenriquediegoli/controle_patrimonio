@@ -135,4 +135,20 @@ public class PatrimonioDaoImpl implements PatrimonioDao {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public Long countByIdResponsavel(Long idResponsavel) {
+        try (Connection connection = DbSession.startDbSession();) {
+            final String SQL = "SELECT COUNT(1) FROM patrimonio WHERE id_responsavel = ?";
+            PreparedStatement ps = connection.prepareStatement(SQL);
+            ps.setLong(1, idResponsavel);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next() ? rs.getLong(1) : 0L;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0L;
+        }
+    }
 }

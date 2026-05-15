@@ -20,4 +20,9 @@ public class PatrimonioServiceImpl implements PatrimonioService {
             patrimonioDao.save(patrimonio);
         }
     }
+
+    @Override
+    public Long countByIdResponsavel(Long idResponsavel){
+        return patrimonioDao.countByIdResponsavel(idResponsavel);
+    }
 }

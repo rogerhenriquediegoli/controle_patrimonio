@@ -10,8 +10,8 @@ public class DbSession {
 
     private static final String USER = "root";
     private static final String PASSWORD = "root";
-    private static final String DB_SCRIPT_PATH = "assets/DB_SCRIPT.sql";
     private static final String SERVER_PATH = "jdbc:mysql://localhost:3306/";
+    private static final String DB_SCRIPT_PATH = "src/repository/DB_SCRIPT.sql";
 
     public static Connection startServerSession() {
         try {
