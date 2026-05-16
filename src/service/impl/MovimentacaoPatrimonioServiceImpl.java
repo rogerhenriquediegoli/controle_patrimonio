@@ -20,4 +20,14 @@ public class MovimentacaoPatrimonioServiceImpl implements MovimentacaoPatrimonio
     public void deleteByResponsavelAnteriorOrAtual(Long idResponsavel) {
         movimentacaoPatrimonioDao.deleteByResponsavelAnteriorOrAtual(idResponsavel);
     }
+
+    @Override
+    public Long countByIdPatrimonio(Long idPatrimonio) {
+        return movimentacaoPatrimonioDao.countByResponsavelAnteriorOrAtual(idPatrimonio);
+    }
+
+    @Override
+    public void deleteByIdPatrimonio(Long idPatrimonio) {
+        movimentacaoPatrimonioDao.deleteByResponsavelAnteriorOrAtual(idPatrimonio);
+    }
 }

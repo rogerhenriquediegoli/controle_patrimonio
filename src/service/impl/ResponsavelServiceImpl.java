@@ -1,11 +1,11 @@
 package src.service.impl;
 
 import src.dao.ResponsavelDao;
-import src.exception.AppException;
 import src.model.Responsavel;
 import src.service.MovimentacaoPatrimonioService;
 import src.service.PatrimonioService;
 import src.service.ResponsavelService;
+import src.utils.JOptionPaneUtils;
 
 public class ResponsavelServiceImpl implements ResponsavelService {
 
@@ -30,23 +30,22 @@ public class ResponsavelServiceImpl implements ResponsavelService {
     }
 
     @Override
-    public void deleteById(Long id, Boolean throwException) {
+    public void deleteById(Long id) {
         Responsavel responsavel = responsavelDao.findById(id);
 
-        if (Boolean.TRUE.equals(throwException)) {
-            if (patrimonioService.countByIdResponsavel(responsavel.getId()) > 0) {
-                throw new AppException("Este responsável possui ativos vinculados. Exclusão não permitida.");
-            }
+        final String mensagem1 = "Este responsável possui ativos vinculados. Exclusão não permitida.";
+        if (patrimonioService.countByIdResponsavel(responsavel.getId()) > 0) {
+            JOptionPaneUtils.showOkDialog(mensagem1);
+            return;
+        }
 
-            if (movimentacaoPatrimonioService.countByResponsavelAnteriorOrAtual(responsavel.getId()) > 0) {
-                throw new AppException(
-                        "Este responsável possui movimentações vinculadas, que também serão excluídas. Deseja continuar?",
-                        true);
-            }
+        final String mensagem2 = "Este responsável possui movimentações vinculadas, que também serão excluídas. Deseja continuar?";
+        if (movimentacaoPatrimonioService.countByResponsavelAnteriorOrAtual(responsavel.getId()) > 0
+                && !JOptionPaneUtils.showConfirmDialog(mensagem2)) {
+            return;
         }
 
         movimentacaoPatrimonioService.deleteByResponsavelAnteriorOrAtual(id);
-
         responsavelDao.deleteById(id);
     }
 }

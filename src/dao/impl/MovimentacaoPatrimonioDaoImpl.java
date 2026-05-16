@@ -202,4 +202,35 @@ public class MovimentacaoPatrimonioDaoImpl implements MovimentacaoPatrimonioDao 
             e.printStackTrace();
         }
     }
+
+    @Override
+    public Long countByIdPatrimonio(Long idPatrimonio) {
+        try (Connection connection = DbSession.startDbSession()) {
+
+            final String SQL = "SELECT COUNT(1) FROM movimentacao_patrimonio WHERE id_patrimonio = ?";
+            PreparedStatement ps = connection.prepareStatement(SQL);
+            ps.setLong(1, idPatrimonio);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next() ? rs.getLong(1) : 0L;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0L;
+        }
+    }
+
+    @Override
+    public void deleteByIdPatrimonio(Long idPatrimonio) {
+        try (Connection connection = DbSession.startDbSession()) {
+
+            final String SQL = "DELETE FROM movimentacao_patrimonio WHERE id_patrimonio = ?";
+            PreparedStatement ps = connection.prepareStatement(SQL);
+            ps.setLong(1, idPatrimonio);
+
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
