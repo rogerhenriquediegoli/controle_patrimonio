@@ -25,8 +25,12 @@ public enum SexoEnum {
 
     public static SexoEnum fromCodigo(String codigo) {
         for (SexoEnum s : values()) {
-            if (s.codigo == codigo) return s;
+            if (s.getCodigo().equalsIgnoreCase(codigo)) return s;
+            
         }
-        throw new IllegalArgumentException("Sexo inválido: " + codigo);
+
+        throw new IllegalArgumentException(
+                "Sexo inválido: " + codigo
+        );
     }
 }

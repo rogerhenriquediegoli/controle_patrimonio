@@ -25,9 +25,9 @@ public class ResponsavelDaoImpl implements ResponsavelDao {
                 rs.getString("telefone"),
                 rs.getString("setor"),
                 rs.getString("cargo"),
-                SexoEnum.valueOf(rs.getString("sexo")),
+                SexoEnum.fromCodigo(rs.getString("sexo")),
                 rs.getTimestamp("data_cadastro").toLocalDateTime(),
-                StatusResponsavelEnum.valueOf(rs.getString("status")));
+                StatusResponsavelEnum.fromCodigo(rs.getInt("status")));
     }
 
     private static void mapObjectToPreparedStatement(PreparedStatement ps, Responsavel responsavel, Boolean isUpdate)

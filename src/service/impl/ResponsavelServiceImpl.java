@@ -1,5 +1,7 @@
 package src.service.impl;
 
+import java.util.List;
+
 import src.dao.ResponsavelDao;
 import src.model.Responsavel;
 import src.service.MovimentacaoPatrimonioService;
@@ -18,6 +20,11 @@ public class ResponsavelServiceImpl implements ResponsavelService {
         this.responsavelDao = responsavelDao;
         this.patrimonioService = patrimonioService;
         this.movimentacaoPatrimonioService = movimentacaoPatrimonioService;
+    }
+
+    @Override
+    public List<Responsavel> findAll(){
+        return responsavelDao.findAll();
     }
 
     @Override
