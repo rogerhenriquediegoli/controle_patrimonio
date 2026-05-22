@@ -1,8 +1,11 @@
 package src.service.impl;
 
+import java.util.List;
+
 import src.dao.PatrimonioDao;
 import src.enums.StatusPatrimonioEnum;
 import src.model.Patrimonio;
+import src.model.Responsavel;
 import src.service.MovimentacaoPatrimonioService;
 import src.service.PatrimonioService;
 import src.utils.JOptionPaneUtils;
@@ -15,6 +18,11 @@ public class PatrimonioServiceImpl implements PatrimonioService {
     public PatrimonioServiceImpl(PatrimonioDao patrimonioDao, MovimentacaoPatrimonioService movimentacaoPatrimonioService) {
         this.patrimonioDao = patrimonioDao;
         this.movimentacaoPatrimonioService = movimentacaoPatrimonioService;
+    }
+
+    @Override
+    public List<Patrimonio> findAll(){
+        return patrimonioDao.findAll();
     }
 
     @Override

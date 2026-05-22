@@ -26,6 +26,11 @@ public class ResponsavelServiceImpl implements ResponsavelService {
     public List<Responsavel> findAll(){
         return responsavelDao.findAll();
     }
+    
+    @Override
+    public Responsavel findById(Long id){
+        return responsavelDao.findById(id);
+    }
 
     @Override
     public void saveOrUpdate(Responsavel responsavel) {

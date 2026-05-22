@@ -15,6 +15,7 @@ import src.service.ResponsavelService;
 import src.service.impl.MovimentacaoPatrimonioServiceImpl;
 import src.service.impl.PatrimonioServiceImpl;
 import src.service.impl.ResponsavelServiceImpl;
+import src.views.FormPatrimonio;
 import src.views.FormResponsavel;
 
 public class Main {
@@ -40,7 +41,7 @@ public class Main {
         }
 
 
-
-        new FormResponsavel(responsavelService);
+        //new FormResponsavel(responsavelService);
+        new FormPatrimonio(responsavelService, patrimonioService);
     }
 }

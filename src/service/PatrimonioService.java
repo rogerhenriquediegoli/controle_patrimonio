@@ -1,8 +1,12 @@
 package src.service;
 
+import java.util.List;
+
 import src.model.Patrimonio;
 
 public interface PatrimonioService {
+
+    List<Patrimonio> findAll();
 
     void saveOrUpdate(Patrimonio patrimonio);
     
