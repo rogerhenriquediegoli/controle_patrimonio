@@ -389,6 +389,7 @@ public class FormPatrimonio extends JFrame {
 
                         carregarTabela();
                         atualizarEstadoBotoes();
+                        limparCampos();
                 });
                 carregarTabela();
                 atualizarEstadoBotoes();
@@ -648,12 +649,12 @@ public class FormPatrimonio extends JFrame {
                 patrimonio.setIdResponsavel(
                                 null);
 
+                patrimonio.setNumeroPatrimonio("");
+
                 patrimonioService.saveOrUpdate(
                                 patrimonio);
 
                 statusAtual = StatusPatrimonioEnum.BAIXADO;
-
-                patrimonio.setNumeroPatrimonio(null);
 
                 idResponsavelSelecionado = null;
 
