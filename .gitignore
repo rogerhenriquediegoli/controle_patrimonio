@@ -1,0 +1,14 @@
+# Compilados Java
+*.class
+
+# Maven
+target/
+
+# Arquivos do VSCode
+.vscode/
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+*.jar

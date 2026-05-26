@@ -1,17 +1,17 @@
 package src.service.impl;
 
-import java.time.LocalDateTime;
 import java.util.List;
+import java.time.LocalDateTime;
 
+import src.model.Patrimonio;
 import src.dao.PatrimonioDao;
+import src.model.Responsavel;
+import src.utils.JOptionPaneUtils;
+import src.service.PatrimonioService;
 import src.enums.StatusPatrimonioEnum;
 import src.enums.TipoMovimentacaoEnum;
 import src.model.MovimentacaoPatrimonio;
-import src.model.Patrimonio;
-import src.model.Responsavel;
 import src.service.MovimentacaoPatrimonioService;
-import src.service.PatrimonioService;
-import src.utils.JOptionPaneUtils;
 
 public class PatrimonioServiceImpl implements PatrimonioService {
 
@@ -19,7 +19,7 @@ public class PatrimonioServiceImpl implements PatrimonioService {
         private final MovimentacaoPatrimonioService movimentacaoPatrimonioService;
 
         public PatrimonioServiceImpl(PatrimonioDao patrimonioDao,
-                        MovimentacaoPatrimonioService movimentacaoPatrimonioService) {
+                                     MovimentacaoPatrimonioService movimentacaoPatrimonioService) {
                 this.patrimonioDao = patrimonioDao;
                 this.movimentacaoPatrimonioService = movimentacaoPatrimonioService;
         }
@@ -213,7 +213,6 @@ public class PatrimonioServiceImpl implements PatrimonioService {
                 }
 
                 patrimonioDao.deleteById(patrimonio.getId());
-
                 JOptionPaneUtils.showOkDialog("Patrimônio excluído com sucesso.");
         }
 }

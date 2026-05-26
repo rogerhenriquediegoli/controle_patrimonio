@@ -1,18 +1,40 @@
 package src.views;
 
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.regex.Pattern;
+
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
 import src.enums.SexoEnum;
 import src.enums.StatusResponsavelEnum;
 import src.model.Responsavel;
 import src.service.ResponsavelService;
-
-import java.awt.*;
-import java.awt.event.*;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.regex.Pattern;
 
 public class FormResponsavel extends JFrame {
 
@@ -497,7 +519,6 @@ public class FormResponsavel extends JFrame {
     }
 
     private class EventoSelecionarLinha extends MouseAdapter {
-
         @Override
         public void mouseClicked(MouseEvent e) {
             int linha = tabela.getSelectedRow();

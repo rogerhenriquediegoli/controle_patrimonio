@@ -28,9 +28,6 @@ public enum SexoEnum {
             if (s.getCodigo().equalsIgnoreCase(codigo)) return s;
             
         }
-
-        throw new IllegalArgumentException(
-                "Sexo inválido: " + codigo
-        );
+        return null;
     }
 }

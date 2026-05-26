@@ -30,6 +30,7 @@ public class Responsavel {
             SexoEnum sexo,
             LocalDateTime dataCadastro,
             StatusResponsavelEnum status) {
+                
         this.id = id;
         this.nomeCompleto = nomeCompleto;
         this.cpf = cpf;

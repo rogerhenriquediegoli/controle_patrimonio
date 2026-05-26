@@ -18,6 +18,7 @@ public class Patrimonio {
             String numeroPatrimonio,
             StatusPatrimonioEnum status,
             Long idResponsavel) {
+                
         this.id = id;
         this.descricao = descricao;
         this.numeroPatrimonio = numeroPatrimonio;

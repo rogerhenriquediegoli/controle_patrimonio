@@ -1,22 +1,21 @@
 package src.dao.impl;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
+import java.sql.ResultSet;
+import java.sql.Connection;
+import java.util.ArrayList;
+import java.sql.SQLException;
+import java.sql.PreparedStatement;
 
-import src.dao.ResponsavelDao;
 import src.enums.SexoEnum;
-import src.enums.StatusResponsavelEnum;
 import src.model.Responsavel;
+import src.dao.ResponsavelDao;
 import src.repository.DbSession;
+import src.enums.StatusResponsavelEnum;
 
 public class ResponsavelDaoImpl implements ResponsavelDao {
 
     private static Responsavel mapResultSetToObject(ResultSet rs) throws SQLException {
-
         return new Responsavel(
                 rs.getLong("id"),
                 rs.getString("nome_completo"),
@@ -27,11 +26,13 @@ public class ResponsavelDaoImpl implements ResponsavelDao {
                 rs.getString("cargo"),
                 SexoEnum.fromCodigo(rs.getString("sexo")),
                 rs.getTimestamp("data_cadastro").toLocalDateTime(),
-                StatusResponsavelEnum.fromCodigo(rs.getInt("status")));
+                StatusResponsavelEnum.fromCodigo(rs.getInt("status"))
+        );
     }
 
-    private static void mapObjectToPreparedStatement(PreparedStatement ps, Responsavel responsavel, Boolean isUpdate)
-            throws SQLException {
+    private static void mapObjectToPreparedStatement(PreparedStatement ps,
+                                                     Responsavel responsavel, 
+                                                     Boolean isUpdate) throws SQLException {
         ps.setString(1, responsavel.getNomeCompleto());
         ps.setString(2, responsavel.getCpf());
         ps.setString(3, responsavel.getEmail());
@@ -40,8 +41,7 @@ public class ResponsavelDaoImpl implements ResponsavelDao {
         ps.setString(6, responsavel.getCargo());
         ps.setString(7, responsavel.getSexo().getCodigo());
         ps.setInt(8, responsavel.getStatus().getCodigo());
-        if (Boolean.TRUE.equals(isUpdate))
-            ps.setLong(9, responsavel.getId());
+        if (Boolean.TRUE.equals(isUpdate)) ps.setLong(9, responsavel.getId());
     }
 
     @Override
@@ -50,12 +50,10 @@ public class ResponsavelDaoImpl implements ResponsavelDao {
 
             final String SQL = "SELECT * FROM responsavel";
             PreparedStatement ps = dbConnection.prepareStatement(SQL);
-
-            List<Responsavel> list = new ArrayList<>();
             ResultSet rs = ps.executeQuery();
 
-            while (rs.next())
-                list.add(mapResultSetToObject(rs));
+            List<Responsavel> list = new ArrayList<>();
+            while (rs.next()) list.add(mapResultSetToObject(rs));
 
             return list;
         } catch (Exception e) {
@@ -74,9 +72,7 @@ public class ResponsavelDaoImpl implements ResponsavelDao {
 
             ResultSet rs = ps.executeQuery();
 
-            Responsavel responsavel = rs.next() ? mapResultSetToObject(rs) : null;
-
-            return responsavel;
+            return rs.next() ? mapResultSetToObject(rs) : null;
         } catch (Exception e) {
             e.printStackTrace();
             return null;

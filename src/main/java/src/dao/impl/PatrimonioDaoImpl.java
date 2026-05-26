@@ -1,15 +1,15 @@
 package src.dao.impl;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.List;
+import java.sql.ResultSet;
+import java.sql.Connection;
+import java.util.ArrayList;
+import java.sql.PreparedStatement;
 
-import src.dao.PatrimonioDao;
-import src.enums.StatusPatrimonioEnum;
 import src.model.Patrimonio;
+import src.dao.PatrimonioDao;
 import src.repository.DbSession;
+import src.enums.StatusPatrimonioEnum;
 
 public class PatrimonioDaoImpl implements PatrimonioDao {
 
@@ -24,11 +24,13 @@ public class PatrimonioDaoImpl implements PatrimonioDao {
                 rs.getString("descricao"),
                 rs.getString("numero_patrimonio"),
                 StatusPatrimonioEnum.fromCodigo(rs.getInt("status")),
-                idResponsavel);
+                idResponsavel
+        );
     }
 
-    private static void mapObjectToPreparedStatement(PreparedStatement ps, Patrimonio patrimonio, Boolean isUpdate)
-            throws Exception {
+    private static void mapObjectToPreparedStatement(PreparedStatement ps, 
+                                                     Patrimonio patrimonio, 
+                                                     Boolean isUpdate) throws Exception {
         ps.setString(1, patrimonio.getDescricao());
         ps.setString(2, patrimonio.getNumeroPatrimonio());
         ps.setInt(3, patrimonio.getStatus().getCodigo());
@@ -39,8 +41,7 @@ public class PatrimonioDaoImpl implements PatrimonioDao {
             ps.setNull(4, java.sql.Types.BIGINT);
         }
 
-        if (Boolean.TRUE.equals(isUpdate))
-            ps.setLong(5, patrimonio.getId());
+        if (Boolean.TRUE.equals(isUpdate)) ps.setLong(5, patrimonio.getId());
     }
 
     @Override
@@ -53,8 +54,7 @@ public class PatrimonioDaoImpl implements PatrimonioDao {
             ResultSet rs = ps.executeQuery();
 
             List<Patrimonio> list = new ArrayList<>();
-            while (rs.next())
-                list.add(mapResultSetToObject(rs));
+            while (rs.next())list.add(mapResultSetToObject(rs));
 
             return list;
         } catch (Exception e) {
@@ -82,7 +82,6 @@ public class PatrimonioDaoImpl implements PatrimonioDao {
 
     @Override
     public Long save(Patrimonio patrimonio) {
-
         try (Connection connection = DbSession.startDbSession()) {
 
             final String SQL = """
@@ -93,26 +92,15 @@ public class PatrimonioDaoImpl implements PatrimonioDao {
                             id_responsavel
                         ) VALUES (?, ?, ?, ?)
                     """;
-
-            PreparedStatement ps = connection.prepareStatement(
-                    SQL,
-                    PreparedStatement.RETURN_GENERATED_KEYS);
-
-            mapObjectToPreparedStatement(
-                    ps,
-                    patrimonio,
-                    false);
+            PreparedStatement ps = connection.prepareStatement(SQL, PreparedStatement.RETURN_GENERATED_KEYS);
+            mapObjectToPreparedStatement(ps, patrimonio, false);
 
             ps.executeUpdate();
 
             ResultSet rs = ps.getGeneratedKeys();
-
-            if (rs.next()) {
-                return rs.getLong(1);
-            }
+            if (rs.next()) return rs.getLong(1);
 
             return null;
-
         } catch (Exception e) {
             e.printStackTrace();
             return null;

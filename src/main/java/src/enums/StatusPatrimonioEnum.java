@@ -26,7 +26,6 @@ public enum StatusPatrimonioEnum {
     }
 
     public static StatusPatrimonioEnum fromCodigo(Integer codigo) {
-
         if (codigo == null) {
             return NAO_APLICAVEL;
         }

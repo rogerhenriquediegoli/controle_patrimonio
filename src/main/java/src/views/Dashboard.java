@@ -1,52 +1,52 @@
 package src.views;
 
-import java.awt.BorderLayout;
+import java.util.List;
+
+import java.time.format.DateTimeFormatter;
+
+import java.awt.Font;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.event.WindowAdapter;
+import java.awt.BorderLayout;
 import java.awt.event.WindowEvent;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
+import java.awt.event.WindowAdapter;
 
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
+import javax.swing.JButton;
+import javax.swing.JScrollPane;
+import javax.swing.BorderFactory;
 import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.DefaultTableModel;
 
-import src.model.MovimentacaoPatrimonio;
 import src.model.Patrimonio;
 import src.model.Responsavel;
-import src.service.MovimentacaoPatrimonioService;
 import src.service.PatrimonioService;
 import src.service.ResponsavelService;
+import src.model.MovimentacaoPatrimonio;
+import src.service.MovimentacaoPatrimonioService;
 
 public class Dashboard extends JFrame {
 
-        private final ResponsavelService responsavelService;
         private final PatrimonioService patrimonioService;
+        private final ResponsavelService responsavelService;
         private final MovimentacaoPatrimonioService movimentacaoService;
 
         private JTable tabela;
         private DefaultTableModel modelo;
         private JLabel lblSemMovimentacoes;
 
-        private JButton btnResponsaveis;
         private JButton btnPatrimonios;
+        private JButton btnResponsaveis;
 
-        public Dashboard(
-                        ResponsavelService responsavelService,
-                        PatrimonioService patrimonioService,
-                        MovimentacaoPatrimonioService movimentacaoService) {
-
+        public Dashboard(ResponsavelService responsavelService,
+                         PatrimonioService patrimonioService,
+                         MovimentacaoPatrimonioService movimentacaoService) {
                 this.responsavelService = responsavelService;
                 this.patrimonioService = patrimonioService;
                 this.movimentacaoService = movimentacaoService;

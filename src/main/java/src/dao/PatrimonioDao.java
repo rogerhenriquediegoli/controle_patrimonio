@@ -1,6 +1,7 @@
 package src.dao;
 
 import java.util.List;
+
 import src.model.Patrimonio;
 
 public interface PatrimonioDao {

@@ -2,12 +2,12 @@ package src.service.impl;
 
 import java.util.List;
 
-import src.dao.ResponsavelDao;
 import src.model.Responsavel;
-import src.service.MovimentacaoPatrimonioService;
+import src.dao.ResponsavelDao;
+import src.utils.JOptionPaneUtils;
 import src.service.PatrimonioService;
 import src.service.ResponsavelService;
-import src.utils.JOptionPaneUtils;
+import src.service.MovimentacaoPatrimonioService;
 
 public class ResponsavelServiceImpl implements ResponsavelService {
 
@@ -15,8 +15,9 @@ public class ResponsavelServiceImpl implements ResponsavelService {
     private final PatrimonioService patrimonioService;
     private final MovimentacaoPatrimonioService movimentacaoPatrimonioService;
 
-    public ResponsavelServiceImpl(ResponsavelDao responsavelDao, PatrimonioService patrimonioService,
-            MovimentacaoPatrimonioService movimentacaoPatrimonioService) {
+    public ResponsavelServiceImpl(ResponsavelDao responsavelDao,
+                                  PatrimonioService patrimonioService,
+                                  MovimentacaoPatrimonioService movimentacaoPatrimonioService) {
         this.responsavelDao = responsavelDao;
         this.patrimonioService = patrimonioService;
         this.movimentacaoPatrimonioService = movimentacaoPatrimonioService;

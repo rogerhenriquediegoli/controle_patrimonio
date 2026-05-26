@@ -25,6 +25,6 @@ public enum StatusResponsavelEnum {
         for (StatusResponsavelEnum s : values()) {
             if (s.codigo == codigo) return s;
         }
-        throw new IllegalArgumentException("StatusResponsavel inválido: " + codigo);
+        return null;
     }
 }

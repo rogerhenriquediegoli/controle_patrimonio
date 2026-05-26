@@ -8,6 +8,8 @@ public interface MovimentacaoPatrimonioService {
 
     List<MovimentacaoPatrimonio> findAll();
 
+    void save(MovimentacaoPatrimonio movimentacao);
+
     Long countByResponsavelAnteriorOrAtual(Long idResponsavel);
 
     void deleteByResponsavelAnteriorOrAtual(Long idResponsavel);
@@ -15,6 +17,4 @@ public interface MovimentacaoPatrimonioService {
     Long countByIdPatrimonio(Long idPatrimonio);
 
     void deleteByIdPatrimonio(Long idPatrimonio);
-
-    void save(MovimentacaoPatrimonio movimentacao);
 }

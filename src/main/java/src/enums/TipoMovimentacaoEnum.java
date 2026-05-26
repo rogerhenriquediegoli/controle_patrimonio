@@ -31,6 +31,6 @@ public enum TipoMovimentacaoEnum {
         for (TipoMovimentacaoEnum t : values()) {
             if (t.codigo == codigo) return t;
         }
-        throw new IllegalArgumentException("TipoMovimentacao inválido: " + codigo);
+        return null;
     }
 }

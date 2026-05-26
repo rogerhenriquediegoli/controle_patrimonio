@@ -1,22 +1,21 @@
 package src.dao.impl;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
+import java.util.List;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.List;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 
-import src.dao.MovimentacaoPatrimonioDao;
+import src.repository.DbSession;
 import src.enums.StatusPatrimonioEnum;
 import src.enums.TipoMovimentacaoEnum;
 import src.model.MovimentacaoPatrimonio;
-import src.repository.DbSession;
+import src.dao.MovimentacaoPatrimonioDao;
 
 public class MovimentacaoPatrimonioDaoImpl implements MovimentacaoPatrimonioDao {
 
     private static MovimentacaoPatrimonio mapResultSetToObject(ResultSet rs) throws Exception {
-
         Long idResponsavelAnterior = rs.getLong("id_responsavel_anterior");
         if (rs.wasNull()) {
             idResponsavelAnterior = null;
@@ -36,81 +35,41 @@ public class MovimentacaoPatrimonioDaoImpl implements MovimentacaoPatrimonioDao 
                 idResponsavelAnterior,
                 idResponsavelAtual,
                 rs.getTimestamp("data_movimentacao").toLocalDateTime(),
-                rs.getString("observacao"));
+                rs.getString("observacao")
+        );
     }
 
-    private static void mapObjectToPreparedStatement(
-            PreparedStatement ps,
-            MovimentacaoPatrimonio movimentacao) throws Exception {
-
-        ps.setLong(
-                1,
-                movimentacao.getIdPatrimonio());
-
-        ps.setInt(
-                2,
-                movimentacao.getTipoMovimentacao().getCodigo());
+    private static void mapObjectToPreparedStatement(PreparedStatement ps,
+                                                     MovimentacaoPatrimonio movimentacao) throws Exception {
+        ps.setLong(1, movimentacao.getIdPatrimonio());
+        ps.setInt(2, movimentacao.getTipoMovimentacao().getCodigo());
 
         if (movimentacao.getStatusAnterior() != null) {
-
-            ps.setInt(
-                    3,
-                    movimentacao.getStatusAnterior().getCodigo());
-
+            ps.setInt(3, movimentacao.getStatusAnterior().getCodigo());
         } else {
-
-            ps.setNull(
-                    3,
-                    java.sql.Types.INTEGER);
+            ps.setNull(3, java.sql.Types.INTEGER);
         }
 
         if (movimentacao.getStatusAtual() != null) {
-
-            ps.setInt(
-                    4,
-                    movimentacao.getStatusAtual().getCodigo());
-
+            ps.setInt(4, movimentacao.getStatusAtual().getCodigo());
         } else {
-
-            ps.setNull(
-                    4,
-                    java.sql.Types.INTEGER);
+            ps.setNull(4, java.sql.Types.INTEGER);
         }
 
         if (movimentacao.getIdResponsavelAnterior() != null) {
-
-            ps.setLong(
-                    5,
-                    movimentacao.getIdResponsavelAnterior());
-
+            ps.setLong(5, movimentacao.getIdResponsavelAnterior());
         } else {
-
-            ps.setNull(
-                    5,
-                    java.sql.Types.BIGINT);
+            ps.setNull(5, java.sql.Types.BIGINT);
         }
 
         if (movimentacao.getIdResponsavelAtual() != null) {
-
-            ps.setLong(
-                    6,
-                    movimentacao.getIdResponsavelAtual());
-
+            ps.setLong(6, movimentacao.getIdResponsavelAtual());
         } else {
-
-            ps.setNull(
-                    6,
-                    java.sql.Types.BIGINT);
+            ps.setNull(6, java.sql.Types.BIGINT);
         }
 
-        ps.setTimestamp(
-                7,
-                Timestamp.valueOf(
-                        movimentacao.getDataMovimentacao()));
-
-        ps.setString(
-                8,
-                movimentacao.getObservacao());
+        ps.setTimestamp(7, Timestamp.valueOf(movimentacao.getDataMovimentacao()));
+        ps.setString(8, movimentacao.getObservacao());
     }
 
     @Override
@@ -122,8 +81,7 @@ public class MovimentacaoPatrimonioDaoImpl implements MovimentacaoPatrimonioDao 
             ResultSet rs = ps.executeQuery();
 
             List<MovimentacaoPatrimonio> list = new ArrayList<>();
-            while (rs.next())
-                list.add(mapResultSetToObject(rs));
+            while (rs.next()) list.add(mapResultSetToObject(rs));
 
             return list;
         } catch (Exception e) {
