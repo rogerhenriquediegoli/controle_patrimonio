@@ -15,12 +15,12 @@ import src.service.ResponsavelService;
 import src.service.impl.MovimentacaoPatrimonioServiceImpl;
 import src.service.impl.PatrimonioServiceImpl;
 import src.service.impl.ResponsavelServiceImpl;
-import src.views.FormPatrimonio;
-import src.views.FormResponsavel;
+import src.views.Dashboard;
 
 public class Main {
-    private static final ResponsavelDao responsavelDao = new ResponsavelDaoImpl();
+    
     private static final PatrimonioDao patrimonioDao = new PatrimonioDaoImpl();
+    private static final ResponsavelDao responsavelDao = new ResponsavelDaoImpl();
     private static final MovimentacaoPatrimonioDao movimentacaoPatrimonioDao = new MovimentacaoPatrimonioDaoImpl();
     private static final MovimentacaoPatrimonioService movimentacaoPatrimonioService = new MovimentacaoPatrimonioServiceImpl(movimentacaoPatrimonioDao);
     private static final PatrimonioService patrimonioService = new PatrimonioServiceImpl(patrimonioDao, movimentacaoPatrimonioService);
@@ -40,8 +40,6 @@ public class Main {
             System.exit(0);
         }
 
-
-        //new FormResponsavel(responsavelService);
-        new FormPatrimonio(responsavelService, patrimonioService);
+        new Dashboard(responsavelService, patrimonioService, movimentacaoPatrimonioService);
     }
 }

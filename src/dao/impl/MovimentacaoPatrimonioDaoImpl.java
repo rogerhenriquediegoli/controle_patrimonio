@@ -28,7 +28,7 @@ public class MovimentacaoPatrimonioDaoImpl implements MovimentacaoPatrimonioDao 
         }
 
         return new MovimentacaoPatrimonio(
-                rs.getLong("id"),
+                null,
                 rs.getLong("id_patrimonio"),
                 TipoMovimentacaoEnum.fromCodigo(rs.getInt("tipo_movimentacao")),
                 StatusPatrimonioEnum.fromCodigo(rs.getInt("status_anterior")),
@@ -39,35 +39,78 @@ public class MovimentacaoPatrimonioDaoImpl implements MovimentacaoPatrimonioDao 
                 rs.getString("observacao"));
     }
 
-    private static void mapObjectToPreparedStatement(PreparedStatement ps, MovimentacaoPatrimonio movimentacao,
-            Boolean isUpdate) throws Exception {
+    private static void mapObjectToPreparedStatement(
+            PreparedStatement ps,
+            MovimentacaoPatrimonio movimentacao) throws Exception {
 
-        ps.setLong(1, movimentacao.getId());
-        ps.setInt(2, movimentacao.getTipoMovimentacao().getCodigo());
-        ps.setInt(3, movimentacao.getStatusAnterior().getCodigo());
-        ps.setInt(4, movimentacao.getStatusAtual().getCodigo());
+        ps.setLong(
+                1,
+                movimentacao.getIdPatrimonio());
+
+        ps.setInt(
+                2,
+                movimentacao.getTipoMovimentacao().getCodigo());
+
+        if (movimentacao.getStatusAnterior() != null) {
+
+            ps.setInt(
+                    3,
+                    movimentacao.getStatusAnterior().getCodigo());
+
+        } else {
+
+            ps.setNull(
+                    3,
+                    java.sql.Types.INTEGER);
+        }
+
+        if (movimentacao.getStatusAtual() != null) {
+
+            ps.setInt(
+                    4,
+                    movimentacao.getStatusAtual().getCodigo());
+
+        } else {
+
+            ps.setNull(
+                    4,
+                    java.sql.Types.INTEGER);
+        }
 
         if (movimentacao.getIdResponsavelAnterior() != null) {
-            ps.setLong(5, movimentacao.getIdResponsavelAnterior());
+
+            ps.setLong(
+                    5,
+                    movimentacao.getIdResponsavelAnterior());
+
         } else {
-            ps.setNull(5, java.sql.Types.BIGINT);
+
+            ps.setNull(
+                    5,
+                    java.sql.Types.BIGINT);
         }
 
         if (movimentacao.getIdResponsavelAtual() != null) {
-            ps.setLong(6, movimentacao.getIdResponsavelAtual());
+
+            ps.setLong(
+                    6,
+                    movimentacao.getIdResponsavelAtual());
+
         } else {
-            ps.setNull(6, java.sql.Types.BIGINT);
+
+            ps.setNull(
+                    6,
+                    java.sql.Types.BIGINT);
         }
 
         ps.setTimestamp(
                 7,
-                Timestamp.valueOf(movimentacao.getDataMovimentacao()));
+                Timestamp.valueOf(
+                        movimentacao.getDataMovimentacao()));
 
-        ps.setString(8, movimentacao.getObservacao());
-
-        if (Boolean.TRUE.equals(isUpdate)) {
-            ps.setLong(9, movimentacao.getId());
-        }
+        ps.setString(
+                8,
+                movimentacao.getObservacao());
     }
 
     @Override
@@ -123,46 +166,7 @@ public class MovimentacaoPatrimonioDaoImpl implements MovimentacaoPatrimonioDao 
                     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                     """;
             PreparedStatement ps = connection.prepareStatement(SQL);
-            mapObjectToPreparedStatement(ps, movimentacao, false);
-
-            ps.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void update(MovimentacaoPatrimonio movimentacao) {
-        try (Connection connection = DbSession.startDbSession()) {
-
-            final String SQL = """
-                    UPDATE movimentacao_patrimonio SET
-                        id_patrimonio = ?,
-                        tipo_movimentacao = ?,
-                        status_anterior = ?,
-                        status_atual = ?,
-                        id_responsavel_anterior = ?,
-                        id_responsavel_atual = ?,
-                        data_movimentacao = ?,
-                        observacao = ?
-                    WHERE id = ?
-                    """;
-            PreparedStatement ps = connection.prepareStatement(SQL);
-            mapObjectToPreparedStatement(ps, movimentacao, true);
-
-            ps.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void deleteById(Long id) {
-        try (Connection connection = DbSession.startDbSession()) {
-
-            final String SQL = "DELETE FROM movimentacao_patrimonio WHERE id = ?";
-            PreparedStatement ps = connection.prepareStatement(SQL);
-            ps.setLong(1, id);
+            mapObjectToPreparedStatement(ps, movimentacao);
 
             ps.executeUpdate();
         } catch (Exception e) {

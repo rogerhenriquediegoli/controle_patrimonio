@@ -81,7 +81,8 @@ public class PatrimonioDaoImpl implements PatrimonioDao {
     }
 
     @Override
-    public void save(Patrimonio patrimonio) {
+    public Long save(Patrimonio patrimonio) {
+
         try (Connection connection = DbSession.startDbSession()) {
 
             final String SQL = """
@@ -92,12 +93,29 @@ public class PatrimonioDaoImpl implements PatrimonioDao {
                             id_responsavel
                         ) VALUES (?, ?, ?, ?)
                     """;
-            PreparedStatement ps = connection.prepareStatement(SQL);
-            mapObjectToPreparedStatement(ps, patrimonio, false);
+
+            PreparedStatement ps = connection.prepareStatement(
+                    SQL,
+                    PreparedStatement.RETURN_GENERATED_KEYS);
+
+            mapObjectToPreparedStatement(
+                    ps,
+                    patrimonio,
+                    false);
 
             ps.executeUpdate();
+
+            ResultSet rs = ps.getGeneratedKeys();
+
+            if (rs.next()) {
+                return rs.getLong(1);
+            }
+
+            return null;
+
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
     }
 

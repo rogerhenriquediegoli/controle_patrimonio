@@ -3,12 +3,13 @@ package src.enums;
 public enum TipoMovimentacaoEnum {
 
     CADASTRO(1, "Cadastro"),
-    ATRIBUICAO(2, "Atribuição"),
-    TRANSFERENCIA(3, "Transferência"),
-    MANUTENCAO(4, "Manutenção"),
-    RETORNO(5, "Retorno da manutenção"),
-    EXTRAVIO(6, "Extravio"),
-    BAIXA(7, "Baixa");
+    DISPONIBILIZACAO(2, "Disponibilização"),
+    ATRIBUICAO(3, "Atribuição"),
+    TRANSFERENCIA(4, "Transferência"),
+    MANUTENCAO(5, "Manutenção"),
+    RETORNO(6, "Retorno da manutenção"),
+    EXTRAVIO(7, "Extravio"),
+    BAIXA(8, "Baixa");
 
     private final Integer codigo;
     private final String descricao;

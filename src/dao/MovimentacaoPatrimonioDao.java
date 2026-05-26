@@ -11,10 +11,6 @@ public interface MovimentacaoPatrimonioDao {
     MovimentacaoPatrimonio findById(Long id);
 
     void save(MovimentacaoPatrimonio movimentacao);
-
-    void update(MovimentacaoPatrimonio movimentacao);
-
-    void deleteById(Long id);
     
     Long countByResponsavelAnteriorOrAtual(Long idResponsavel);
 

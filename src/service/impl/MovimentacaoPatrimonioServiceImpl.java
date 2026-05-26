@@ -1,6 +1,9 @@
 package src.service.impl;
 
+import java.util.List;
+
 import src.dao.MovimentacaoPatrimonioDao;
+import src.model.MovimentacaoPatrimonio;
 import src.service.MovimentacaoPatrimonioService;
 
 public class MovimentacaoPatrimonioServiceImpl implements MovimentacaoPatrimonioService {
@@ -9,6 +12,11 @@ public class MovimentacaoPatrimonioServiceImpl implements MovimentacaoPatrimonio
 
     public MovimentacaoPatrimonioServiceImpl(MovimentacaoPatrimonioDao movimentacaoPatrimonioDao) {
         this.movimentacaoPatrimonioDao = movimentacaoPatrimonioDao;
+    }
+
+    @Override
+    public List<MovimentacaoPatrimonio> findAll(){
+        return movimentacaoPatrimonioDao.findAll();
     }
 
     @Override
@@ -23,11 +31,16 @@ public class MovimentacaoPatrimonioServiceImpl implements MovimentacaoPatrimonio
 
     @Override
     public Long countByIdPatrimonio(Long idPatrimonio) {
-        return movimentacaoPatrimonioDao.countByResponsavelAnteriorOrAtual(idPatrimonio);
+        return movimentacaoPatrimonioDao.countByIdPatrimonio(idPatrimonio);
     }
 
     @Override
     public void deleteByIdPatrimonio(Long idPatrimonio) {
-        movimentacaoPatrimonioDao.deleteByResponsavelAnteriorOrAtual(idPatrimonio);
+        movimentacaoPatrimonioDao.deleteByIdPatrimonio(idPatrimonio);
+    }
+
+    @Override
+    public void save(MovimentacaoPatrimonio movimentacao){
+        movimentacaoPatrimonioDao.save(movimentacao);
     }
 }

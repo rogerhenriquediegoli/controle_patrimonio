@@ -9,7 +9,7 @@ public interface PatrimonioDao {
 
     Patrimonio findById(Long id);
 
-    void save(Patrimonio patrimonio);
+    Long save(Patrimonio patrimonio);
 
     void update(Patrimonio patrimonio);
 

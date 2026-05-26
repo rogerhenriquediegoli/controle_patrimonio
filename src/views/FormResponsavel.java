@@ -49,7 +49,7 @@ public class FormResponsavel extends JFrame {
         setTitle("Cadastro de Responsável");
         setSize(1200, 650);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout(10, 10));
 
         JPanel painelFormulario = new JPanel(new GridBagLayout());

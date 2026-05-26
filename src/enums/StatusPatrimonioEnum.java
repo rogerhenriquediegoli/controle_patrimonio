@@ -2,9 +2,10 @@ package src.enums;
 
 public enum StatusPatrimonioEnum {
 
+    NAO_APLICAVEL(0, "-"),
     DISPONIVEL(1, "Disponível"),
-    EM_USO(2, "Em uso"),
-    EM_MANUTENCAO(3, "Em manutenção"),
+    EM_USO(2, "Em Uso"),
+    EM_MANUTENCAO(3, "Em Manutenção"),
     EXTRAVIADO(4, "Extraviado"),
     BAIXADO(5, "Baixado");
 
@@ -25,9 +26,17 @@ public enum StatusPatrimonioEnum {
     }
 
     public static StatusPatrimonioEnum fromCodigo(Integer codigo) {
-        for (StatusPatrimonioEnum s : values()) {
-            if (s.codigo == codigo) return s;
+
+        if (codigo == null) {
+            return NAO_APLICAVEL;
         }
-        throw new IllegalArgumentException("StatusPatrimonio inválido: " + codigo);
+
+        for (StatusPatrimonioEnum status : values()) {
+            if (status.codigo.equals(codigo)) {
+                return status;
+            }
+        }
+
+        return NAO_APLICAVEL;
     }
 }

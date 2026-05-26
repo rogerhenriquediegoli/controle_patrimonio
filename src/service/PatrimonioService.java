@@ -8,6 +8,8 @@ public interface PatrimonioService {
 
     List<Patrimonio> findAll();
 
+    Patrimonio findById(Long id);
+
     void saveOrUpdate(Patrimonio patrimonio);
     
     Long countByIdResponsavel(Long idResponsavel);
