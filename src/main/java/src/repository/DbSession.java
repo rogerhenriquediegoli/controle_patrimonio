@@ -1,18 +1,18 @@
 package src.repository;
 
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.Statement;
+import java.sql.Connection;
+import java.io.InputStream;
+import java.sql.SQLException;
+import java.sql.DriverManager;
+import java.nio.charset.StandardCharsets;
 
 public class DbSession {
 
     private static final String USER = "root";
     private static final String PASSWORD = "";
 
-    private static final String CONNECTION_PARAMS =
-            "?useUnicode=true"
+    private static final String CONNECTION_PARAMS = "?useUnicode=true"
             + "&characterEncoding=UTF-8"
             + "&connectionCollation=utf8mb4_unicode_ci"
             + "&serverTimezone=America/Sao_Paulo";
@@ -39,8 +39,18 @@ public class DbSession {
     }
 
     public static Boolean initializeDatabaseEnvironment() {
+        try (Connection ignored = DriverManager.getConnection(DB_PATH, USER, PASSWORD)) {
+            return true;
+        } catch (SQLException e) {
+
+            if (e.getErrorCode() != 1049) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+
         try (Connection connection = startServerSession();
-             Statement statement = connection.createStatement()) {
+                Statement statement = connection.createStatement()) {
 
             InputStream is = DbSession.class.getClassLoader().getResourceAsStream("DB_SCRIPT.sql");
 
@@ -60,6 +70,7 @@ public class DbSession {
             }
 
             return true;
+
         } catch (Exception e) {
             e.printStackTrace();
             return false;

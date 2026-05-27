@@ -10,7 +10,7 @@ public interface PatrimonioService {
 
     Patrimonio findById(Long id);
 
-    void saveOrUpdate(Patrimonio patrimonio);
+    void saveOrUpdate(Patrimonio patrimonio, boolean isSalvamentoEmLote);
     
     Long countByIdResponsavel(Long idResponsavel);
 

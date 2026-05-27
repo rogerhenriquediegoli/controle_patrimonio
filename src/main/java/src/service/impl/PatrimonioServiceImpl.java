@@ -1,11 +1,13 @@
 package src.service.impl;
 
 import java.util.List;
+
+import javax.swing.JOptionPane;
+
 import java.time.LocalDateTime;
 
 import src.model.Patrimonio;
 import src.dao.PatrimonioDao;
-import src.model.Responsavel;
 import src.utils.JOptionPaneUtils;
 import src.service.PatrimonioService;
 import src.enums.StatusPatrimonioEnum;
@@ -19,7 +21,7 @@ public class PatrimonioServiceImpl implements PatrimonioService {
         private final MovimentacaoPatrimonioService movimentacaoPatrimonioService;
 
         public PatrimonioServiceImpl(PatrimonioDao patrimonioDao,
-                                     MovimentacaoPatrimonioService movimentacaoPatrimonioService) {
+                        MovimentacaoPatrimonioService movimentacaoPatrimonioService) {
                 this.patrimonioDao = patrimonioDao;
                 this.movimentacaoPatrimonioService = movimentacaoPatrimonioService;
         }
@@ -35,114 +37,63 @@ public class PatrimonioServiceImpl implements PatrimonioService {
         }
 
         @Override
-        public void saveOrUpdate(Patrimonio patrimonio) {
-
-                // CADASTRO
-
+        public void saveOrUpdate(Patrimonio patrimonio, boolean isSalvamentoEmLote) {
                 if (patrimonio.getId() == null) {
-
-                        patrimonio.setStatus(
-                                        StatusPatrimonioEnum.DISPONIVEL);
+                        patrimonio.setStatus(StatusPatrimonioEnum.DISPONIVEL);
 
                         Long idPatrimonio = patrimonioDao.save(patrimonio);
                         patrimonio.setId(idPatrimonio);
 
                         MovimentacaoPatrimonio movimentacao = new MovimentacaoPatrimonio();
+                        movimentacao.setIdPatrimonio(patrimonio.getId());
+                        movimentacao.setTipoMovimentacao(TipoMovimentacaoEnum.CADASTRO);
+                        movimentacao.setStatusAnterior(null);
+                        movimentacao.setStatusAtual(patrimonio.getStatus());
+                        movimentacao.setIdResponsavelAnterior(null);
+                        movimentacao.setIdResponsavelAtual(patrimonio.getIdResponsavel());
+                        movimentacao.setDataMovimentacao(LocalDateTime.now());
+                        movimentacao.setObservacao("Cadastro inicial do patrimônio");
 
-                        movimentacao.setIdPatrimonio(
-                                        patrimonio.getId());
-
-                        movimentacao.setTipoMovimentacao(
-                                        TipoMovimentacaoEnum.CADASTRO);
-
-                        movimentacao.setStatusAnterior(
-                                        null);
-
-                        movimentacao.setStatusAtual(
-                                        patrimonio.getStatus());
-
-                        movimentacao.setIdResponsavelAnterior(
-                                        null);
-
-                        movimentacao.setIdResponsavelAtual(
-                                        patrimonio.getIdResponsavel());
-
-                        movimentacao.setDataMovimentacao(
-                                        LocalDateTime.now());
-
-                        movimentacao.setObservacao(
-                                        "Cadastro inicial do patrimônio");
-
-                        movimentacaoPatrimonioService.save(
-                                        movimentacao);
-
-                }
-
-                // ALTERAÇÃO
-
-                else {
-
-                        Patrimonio anterior = patrimonioDao.findById(
-                                        patrimonio.getId());
-
-                        patrimonioDao.update(
-                                        patrimonio);
+                        movimentacaoPatrimonioService.save(movimentacao);
+                } else {
+                        Patrimonio anterior = patrimonioDao.findById(patrimonio.getId());
+                        patrimonioDao.update(patrimonio);
 
                         boolean houveAlteracaoStatus = anterior.getStatus() != patrimonio.getStatus();
-
-                        boolean houveAlteracaoResponsavel = !java.util.Objects.equals(
-                                        anterior.getIdResponsavel(),
+                        boolean houveAlteracaoResponsavel = !java.util.Objects.equals(anterior.getIdResponsavel(),
                                         patrimonio.getIdResponsavel());
 
-                        if (houveAlteracaoStatus
-                                        || houveAlteracaoResponsavel) {
-
-                                TipoMovimentacaoEnum tipo = determinarTipoMovimentacao(
-                                                anterior,
-                                                patrimonio);
+                        if (houveAlteracaoStatus || houveAlteracaoResponsavel) {
+                                String observacao = !isSalvamentoEmLote ? JOptionPane.showInputDialog(
+                                                null,
+                                                "Informe a observação da movimentação:",
+                                                "Observação",
+                                                JOptionPane.QUESTION_MESSAGE)
+                                                : "Desvinculação automática devido à inativação do responsável.";
+                                TipoMovimentacaoEnum tipo = determinarTipoMovimentacao(anterior, patrimonio);
 
                                 MovimentacaoPatrimonio movimentacao = new MovimentacaoPatrimonio();
+                                movimentacao.setIdPatrimonio(patrimonio.getId());
+                                movimentacao.setTipoMovimentacao(tipo);
+                                movimentacao.setStatusAnterior(anterior.getStatus());
+                                movimentacao.setStatusAtual(patrimonio.getStatus());
+                                movimentacao.setIdResponsavelAnterior(anterior.getIdResponsavel());
+                                movimentacao.setIdResponsavelAtual(patrimonio.getIdResponsavel());
+                                movimentacao.setDataMovimentacao(LocalDateTime.now());
+                                movimentacao.setObservacao(observacao);
 
-                                movimentacao.setIdPatrimonio(
-                                                patrimonio.getId());
-
-                                movimentacao.setTipoMovimentacao(
-                                                tipo);
-
-                                movimentacao.setStatusAnterior(
-                                                anterior.getStatus());
-
-                                movimentacao.setStatusAtual(
-                                                patrimonio.getStatus());
-
-                                movimentacao.setIdResponsavelAnterior(
-                                                anterior.getIdResponsavel());
-
-                                movimentacao.setIdResponsavelAtual(
-                                                patrimonio.getIdResponsavel());
-
-                                movimentacao.setDataMovimentacao(
-                                                LocalDateTime.now());
-
-                                movimentacaoPatrimonioService.save(
-                                                movimentacao);
+                                movimentacaoPatrimonioService.save(movimentacao);
                         }
                 }
 
-                JOptionPaneUtils.showOkDialog(
-                                "Patrimônio salvo com sucesso.");
+                if (!isSalvamentoEmLote) JOptionPaneUtils.showOkDialog("Patrimônio salvo com sucesso.");
         }
 
-        private TipoMovimentacaoEnum determinarTipoMovimentacao(
-                        Patrimonio anterior,
-                        Patrimonio atual) {
-
+        private TipoMovimentacaoEnum determinarTipoMovimentacao(Patrimonio anterior, Patrimonio atual) {
                 Long responsavelAnterior = anterior.getIdResponsavel();
-
                 Long responsavelAtual = atual.getIdResponsavel();
 
                 StatusPatrimonioEnum statusAnterior = anterior.getStatus();
-
                 StatusPatrimonioEnum statusAtual = atual.getStatus();
 
                 if (statusAtual == StatusPatrimonioEnum.BAIXADO) {
@@ -163,20 +114,16 @@ public class PatrimonioServiceImpl implements PatrimonioService {
                         return TipoMovimentacaoEnum.RETORNO;
                 }
 
-                if (responsavelAnterior == null
-                                && responsavelAtual != null) {
+                if (responsavelAnterior == null && responsavelAtual != null) {
                         return TipoMovimentacaoEnum.ATRIBUICAO;
                 }
 
-                if (responsavelAnterior != null
-                                && responsavelAtual != null
-                                && !responsavelAnterior.equals(
-                                                responsavelAtual)) {
+                if (responsavelAnterior != null && responsavelAtual != null
+                                && !responsavelAnterior.equals(responsavelAtual)) {
                         return TipoMovimentacaoEnum.TRANSFERENCIA;
                 }
 
-                if (responsavelAnterior != null
-                                && responsavelAtual == null) {
+                if (responsavelAnterior != null && responsavelAtual == null) {
                         return TipoMovimentacaoEnum.DISPONIBILIZACAO;
                 }
 
@@ -213,6 +160,7 @@ public class PatrimonioServiceImpl implements PatrimonioService {
                 }
 
                 patrimonioDao.deleteById(patrimonio.getId());
+
                 JOptionPaneUtils.showOkDialog("Patrimônio excluído com sucesso.");
         }
 }

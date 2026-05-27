@@ -1,66 +1,66 @@
 package src.views;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.time.LocalDateTime;
+import java.awt.Color;
 import java.util.List;
+import java.awt.Insets;
+import java.awt.FlowLayout;
+import java.awt.BorderLayout;
+import java.awt.GridBagLayout;
+import java.time.LocalDateTime;
 import java.util.regex.Pattern;
+import java.awt.event.MouseEvent;
+import java.awt.event.ActionEvent;
+import java.awt.GridBagConstraints;
+import java.awt.event.MouseAdapter;
+import java.awt.event.ActionListener;
 
-import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
+import javax.swing.JFrame;
+import javax.swing.JTable;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
+import javax.swing.ButtonGroup;
+import javax.swing.JScrollPane;
+import javax.swing.JRadioButton;
+import javax.swing.BorderFactory;
 import javax.swing.SwingConstants;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 import src.enums.SexoEnum;
-import src.enums.StatusResponsavelEnum;
 import src.model.Responsavel;
+import src.enums.StatusResponsavelEnum;
 import src.service.ResponsavelService;
+import src.utils.JOptionPaneUtils;
 
 public class FormResponsavel extends JFrame {
 
     private final ResponsavelService responsavelService;
 
-    private JTextField txtNomeCompleto;
+    private JLabel lblSemRegistros;
+
     private JTextField txtCpf;
     private JTextField txtEmail;
-    private JTextField txtTelefone;
     private JTextField txtSetor;
     private JTextField txtCargo;
+    private JTextField txtTelefone;
+    private JTextField txtNomeCompleto;
 
-    private JRadioButton rbMasculino;
-    private JRadioButton rbFeminino;
     private JRadioButton rbOutro;
+    private JRadioButton rbFeminino;
+    private JRadioButton rbMasculino;
     private JRadioButton rbNaoInformado;
-
-    private JCheckBox cbAtivo;
 
     private JButton btnSalvar;
     private JButton btnExcluir;
 
+    private JCheckBox cbAtivo;
+
     private JTable tabela;
     private DefaultTableModel modelo;
-
-    private JLabel lblSemRegistros;
 
     private Long idSelecionado = null;
 
@@ -83,71 +83,58 @@ public class FormResponsavel extends JFrame {
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-
         gbc.gridx = 0;
         gbc.gridy = 0;
 
         painelFormulario.add(new JLabel("Nome Completo:"), gbc);
-
         gbc.gridx = 1;
 
         txtNomeCompleto = new JTextField(25);
-
         painelFormulario.add(txtNomeCompleto, gbc);
 
         gbc.gridx = 0;
         gbc.gridy++;
 
         painelFormulario.add(new JLabel("CPF:"), gbc);
-
         gbc.gridx = 1;
 
         txtCpf = new JTextField(20);
-
         painelFormulario.add(txtCpf, gbc);
 
         gbc.gridx = 0;
         gbc.gridy++;
 
         painelFormulario.add(new JLabel("Email:"), gbc);
-
         gbc.gridx = 1;
 
         txtEmail = new JTextField(25);
-
         painelFormulario.add(txtEmail, gbc);
 
         gbc.gridx = 0;
         gbc.gridy++;
 
         painelFormulario.add(new JLabel("Telefone:"), gbc);
-
         gbc.gridx = 1;
 
         txtTelefone = new JTextField(20);
-
         painelFormulario.add(txtTelefone, gbc);
 
         gbc.gridx = 0;
         gbc.gridy++;
 
         painelFormulario.add(new JLabel("Setor:"), gbc);
-
         gbc.gridx = 1;
 
         txtSetor = new JTextField(20);
-
         painelFormulario.add(txtSetor, gbc);
 
         gbc.gridx = 0;
         gbc.gridy++;
 
         painelFormulario.add(new JLabel("Cargo:"), gbc);
-
         gbc.gridx = 1;
 
         txtCargo = new JTextField(20);
-
         painelFormulario.add(txtCargo, gbc);
 
         gbc.gridx = 0;
@@ -155,9 +142,7 @@ public class FormResponsavel extends JFrame {
 
         painelFormulario.add(new JLabel("Sexo:"), gbc);
 
-        JPanel painelSexo = new JPanel(
-                new FlowLayout(FlowLayout.LEFT, 5, 0)
-        );
+        JPanel painelSexo = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
 
         rbMasculino = new JRadioButton("Masculino");
         rbFeminino = new JRadioButton("Feminino");
@@ -165,7 +150,6 @@ public class FormResponsavel extends JFrame {
         rbNaoInformado = new JRadioButton("Não Informado");
 
         ButtonGroup grupoSexo = new ButtonGroup();
-
         grupoSexo.add(rbMasculino);
         grupoSexo.add(rbFeminino);
         grupoSexo.add(rbOutro);
@@ -188,16 +172,13 @@ public class FormResponsavel extends JFrame {
         painelFormulario.add(new JLabel("Status:"), gbc);
 
         cbAtivo = new JCheckBox("Ativo");
-
         cbAtivo.setSelected(true);
 
         gbc.gridx = 1;
 
         painelFormulario.add(cbAtivo, gbc);
 
-        JPanel painelBotoes = new JPanel(
-                new FlowLayout(FlowLayout.CENTER)
-        );
+        JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
         btnSalvar = new JButton("Salvar");
         btnExcluir = new JButton("Excluir");
@@ -206,7 +187,6 @@ public class FormResponsavel extends JFrame {
         painelBotoes.add(btnExcluir);
 
         JPanel painelTopo = new JPanel(new BorderLayout());
-
         painelTopo.add(painelFormulario, BorderLayout.CENTER);
         painelTopo.add(painelBotoes, BorderLayout.SOUTH);
 
@@ -231,32 +211,17 @@ public class FormResponsavel extends JFrame {
         modelo.addColumn("Status");
 
         tabela = new JTable(modelo);
-
         tabela.setRowHeight(25);
-
-        tabela.setSelectionMode(
-                ListSelectionModel.SINGLE_SELECTION
-        );
+        tabela.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         JScrollPane scrollTabela = new JScrollPane(tabela);
 
-        lblSemRegistros = new JLabel(
-                "Nenhum responsável cadastrado.",
-                SwingConstants.CENTER
-        );
-
-        lblSemRegistros.setFont(
-                new Font("Arial", Font.BOLD, 16)
-        );
-
+        lblSemRegistros = new JLabel("Nenhum responsável cadastrado.", SwingConstants.CENTER);
+        lblSemRegistros.setFont(new Font("Arial", Font.BOLD, 16));
         lblSemRegistros.setForeground(Color.GRAY);
 
         JPanel painelTabela = new JPanel(new BorderLayout());
-
-        painelTabela.setBorder(
-                BorderFactory.createTitledBorder("Lista de Responsáveis")
-        );
-
+        painelTabela.setBorder(BorderFactory.createTitledBorder("Lista de Responsáveis"));
         painelTabela.add(scrollTabela, BorderLayout.CENTER);
         painelTabela.add(lblSemRegistros, BorderLayout.SOUTH);
 
@@ -272,7 +237,6 @@ public class FormResponsavel extends JFrame {
         tabela.addMouseListener(new EventoSelecionarLinha());
 
         carregarTabela();
-
         setVisible(true);
     }
 
@@ -292,7 +256,7 @@ public class FormResponsavel extends JFrame {
 
             for (Responsavel r : lista) {
 
-                modelo.addRow(new Object[]{
+                modelo.addRow(new Object[] {
                         r.getId(),
                         r.getNomeCompleto(),
                         r.getCpf(),
@@ -308,23 +272,16 @@ public class FormResponsavel extends JFrame {
     }
 
     private boolean emailValido(String email) {
-
-        String regex =
-                "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
-
+        String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
         return Pattern.matches(regex, email);
     }
 
     private boolean telefoneValido(String telefone) {
-
-        String regex =
-                "^\\(?\\d{2}\\)?\\s?\\d{4,5}-?\\d{4}$";
-
+        String regex = "^\\(?\\d{2}\\)?\\s?\\d{4,5}-?\\d{4}$";
         return Pattern.matches(regex, telefone);
     }
 
     private boolean cpfValido(String cpf) {
-
         cpf = cpf.replaceAll("[^0-9]", "");
 
         if (cpf.length() != 11) {
@@ -336,7 +293,6 @@ public class FormResponsavel extends JFrame {
         }
 
         try {
-
             int soma = 0;
 
             for (int i = 0; i < 9; i++) {
@@ -344,7 +300,6 @@ public class FormResponsavel extends JFrame {
             }
 
             int dig1 = 11 - (soma % 11);
-
             if (dig1 >= 10) {
                 dig1 = 0;
             }
@@ -356,20 +311,17 @@ public class FormResponsavel extends JFrame {
             }
 
             int dig2 = 11 - (soma % 11);
-
             if (dig2 >= 10) {
                 dig2 = 0;
             }
 
             return dig1 == (cpf.charAt(9) - '0') && dig2 == (cpf.charAt(10) - '0');
         } catch (Exception e) {
-
             return false;
         }
     }
 
     private SexoEnum obterSexoSelecionado() {
-
         if (rbMasculino.isSelected()) {
             return SexoEnum.MASCULINO;
         }
@@ -385,6 +337,19 @@ public class FormResponsavel extends JFrame {
         return SexoEnum.NAO_INFORMADO;
     }
 
+    private void limparCampos() {
+        idSelecionado = null;
+        txtNomeCompleto.setText("");
+        txtCpf.setText("");
+        txtEmail.setText("");
+        txtTelefone.setText("");
+        txtSetor.setText("");
+        txtCargo.setText("");
+        rbNaoInformado.setSelected(true);
+        cbAtivo.setSelected(true);
+        tabela.clearSelection();
+    }
+
     private class EventoSalvar implements ActionListener {
 
         @Override
@@ -397,85 +362,42 @@ public class FormResponsavel extends JFrame {
             String setor = txtSetor.getText().trim();
             String cargo = txtCargo.getText().trim();
 
-            if (
-                    nome.isBlank()
-                            || cpf.isBlank()
-                            || email.isBlank()
-                            || telefone.isBlank()
-                            || setor.isBlank()
-                            || cargo.isBlank()
-            ) {
-
-                JOptionPane.showMessageDialog(
-                        null,
-                        "Todos os campos são obrigatórios!"
-                );
-
+            if (nome.isBlank() || cpf.isBlank() || email.isBlank()
+                    || telefone.isBlank() || setor.isBlank() || cargo.isBlank()) {
+                JOptionPaneUtils.showOkDialog("Todos os campos são obrigatórios!");
                 return;
             }
 
             if (!cpfValido(cpf)) {
-
-                JOptionPane.showMessageDialog(
-                        null,
-                        "CPF inválido!"
-                );
-
+                JOptionPaneUtils.showOkDialog("CPF inválido!");
                 return;
             }
 
             if (!emailValido(email)) {
-
-                JOptionPane.showMessageDialog(
-                        null,
-                        "Email inválido!"
-                );
-
+                JOptionPaneUtils.showOkDialog("Email inválido!");
                 return;
             }
 
             if (!telefoneValido(telefone)) {
-
-                JOptionPane.showMessageDialog(
-                        null,
-                        "Telefone inválido!"
-                );
-
+                JOptionPaneUtils.showOkDialog("Telefone inválido!");
                 return;
             }
 
             Responsavel responsavel = new Responsavel();
-
             responsavel.setId(idSelecionado);
-
             responsavel.setNomeCompleto(nome);
             responsavel.setCpf(cpf);
             responsavel.setEmail(email);
             responsavel.setTelefone(telefone);
             responsavel.setSetor(setor);
             responsavel.setCargo(cargo);
-
             responsavel.setSexo(obterSexoSelecionado());
-
-            responsavel.setStatus(
-                    cbAtivo.isSelected()
-                            ? StatusResponsavelEnum.ATIVO
-                            : StatusResponsavelEnum.INATIVO
-            );
-
+            responsavel.setStatus(cbAtivo.isSelected() ? StatusResponsavelEnum.ATIVO : StatusResponsavelEnum.INATIVO);
             responsavel.setDataCadastro(LocalDateTime.now());
 
             responsavelService.saveOrUpdate(responsavel);
 
-            JOptionPane.showMessageDialog(
-                    null,
-                    idSelecionado == null
-                            ? "Responsável cadastrado!"
-                            : "Responsável atualizado!"
-            );
-
             limparCampos();
-
             carregarTabela();
         }
     }
@@ -484,35 +406,14 @@ public class FormResponsavel extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-
             if (idSelecionado == null) {
-
-                JOptionPane.showMessageDialog(
-                        null,
-                        "Selecione um registro."
-                );
-
+                JOptionPaneUtils.showOkDialog("Selecione um registro.");
                 return;
             }
 
-            int resposta = JOptionPane.showConfirmDialog(
-                    null,
-                    "Deseja realmente excluir?",
-                    "Confirmação",
-                    JOptionPane.YES_NO_OPTION
-            );
-
-            if (resposta == JOptionPane.YES_OPTION) {
-
+            if (JOptionPaneUtils.showConfirmDialog("Deseja realmente excluir?")) {
                 responsavelService.deleteById(idSelecionado);
-
-                JOptionPane.showMessageDialog(
-                        null,
-                        "Registro excluído!"
-                );
-
                 limparCampos();
-
                 carregarTabela();
             }
         }
@@ -536,20 +437,16 @@ public class FormResponsavel extends JFrame {
             txtCargo.setText(tabela.getValueAt(linha, 6).toString());
 
             String sexo = tabela.getValueAt(linha, 7).toString();
-
             switch (sexo) {
                 case "Masculino":
                     rbMasculino.setSelected(true);
                     break;
-
                 case "Feminino":
                     rbFeminino.setSelected(true);
                     break;
-
                 case "Outro":
                     rbOutro.setSelected(true);
                     break;
-
                 default:
                     rbNaoInformado.setSelected(true);
             }
@@ -557,18 +454,5 @@ public class FormResponsavel extends JFrame {
             String status = tabela.getValueAt(linha, 8).toString();
             cbAtivo.setSelected(status.equals("Ativo"));
         }
-    }
-
-    private void limparCampos() {
-        idSelecionado = null;
-        txtNomeCompleto.setText("");
-        txtCpf.setText("");
-        txtEmail.setText("");
-        txtTelefone.setText("");
-        txtSetor.setText("");
-        txtCargo.setText("");
-        rbNaoInformado.setSelected(true);
-        cbAtivo.setSelected(true);
-        tabela.clearSelection();
     }
 }

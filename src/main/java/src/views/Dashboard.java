@@ -37,16 +37,18 @@ public class Dashboard extends JFrame {
         private final ResponsavelService responsavelService;
         private final MovimentacaoPatrimonioService movimentacaoService;
 
-        private JTable tabela;
-        private DefaultTableModel modelo;
         private JLabel lblSemMovimentacoes;
 
         private JButton btnPatrimonios;
         private JButton btnResponsaveis;
 
+        private JTable tabela;
+        private DefaultTableModel modelo;
+
         public Dashboard(ResponsavelService responsavelService,
-                         PatrimonioService patrimonioService,
-                         MovimentacaoPatrimonioService movimentacaoService) {
+                        PatrimonioService patrimonioService,
+                        MovimentacaoPatrimonioService movimentacaoService) {
+
                 this.responsavelService = responsavelService;
                 this.patrimonioService = patrimonioService;
                 this.movimentacaoService = movimentacaoService;
@@ -58,72 +60,34 @@ public class Dashboard extends JFrame {
                 setLayout(new BorderLayout(10, 10));
                 setExtendedState(JFrame.MAXIMIZED_BOTH);
 
-                // =========================
-                // CABEÇALHO
-                // =========================
-
                 JPanel painelCabecalho = new JPanel(new BorderLayout());
 
-                JLabel lblTitulo = new JLabel(
-                                "Dashboard de Movimentações Patrimoniais",
-                                SwingConstants.CENTER);
+                JLabel lblTitulo = new JLabel("Dashboard de Movimentações Patrimoniais", SwingConstants.CENTER);
+                lblTitulo.setFont(new Font("Arial", Font.BOLD, 26));
 
-                lblTitulo.setFont(
-                                new Font("Arial", Font.BOLD, 26));
+                painelCabecalho.add(lblTitulo, BorderLayout.CENTER);
 
-                painelCabecalho.add(
-                                lblTitulo,
-                                BorderLayout.CENTER);
-
-                // =========================
-                // AÇÕES
-                // =========================
-
-                JPanel painelAcoes = new JPanel(
-                                new FlowLayout(FlowLayout.LEFT, 10, 10));
-
-                painelAcoes.setBorder(
-                                BorderFactory.createTitledBorder("Ações"));
+                JPanel painelAcoes = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
+                painelAcoes.setBorder(BorderFactory.createTitledBorder("Ações"));
 
                 btnResponsaveis = new JButton("Gerenciar Responsáveis");
-
-                btnResponsaveis.setPreferredSize(
-                                new Dimension(220, 35));
-
+                btnResponsaveis.setPreferredSize(new Dimension(220, 35));
                 btnPatrimonios = new JButton("Gerenciar Patrimônios");
-
-                btnPatrimonios.setPreferredSize(
-                                new Dimension(220, 35));
+                btnPatrimonios.setPreferredSize(new Dimension(220, 35));
 
                 painelAcoes.add(btnResponsaveis);
                 painelAcoes.add(btnPatrimonios);
 
-                JPanel painelSuperior = new JPanel(
-                                new BorderLayout());
+                JPanel painelSuperior = new JPanel(new BorderLayout());
+                painelSuperior.add(painelCabecalho, BorderLayout.NORTH);
+                painelSuperior.add(painelAcoes, BorderLayout.SOUTH);
 
-                painelSuperior.add(
-                                painelCabecalho,
-                                BorderLayout.NORTH);
-
-                painelSuperior.add(
-                                painelAcoes,
-                                BorderLayout.SOUTH);
-
-                add(
-                                painelSuperior,
-                                BorderLayout.NORTH);
-
-                // =========================
-                // TABELA
-                // =========================
+                add(painelSuperior, BorderLayout.NORTH);
 
                 modelo = new DefaultTableModel() {
 
                         @Override
-                        public boolean isCellEditable(
-                                        int row,
-                                        int column) {
-
+                        public boolean isCellEditable(int row, int column) {
                                 return false;
                         }
                 };
@@ -138,213 +102,108 @@ public class Dashboard extends JFrame {
                 modelo.addColumn("Observação");
 
                 tabela = new JTable(modelo);
-
                 tabela.setRowHeight(28);
-
-                tabela.setSelectionMode(
-                                ListSelectionModel.SINGLE_SELECTION);
+                tabela.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
                 JTableHeader header = tabela.getTableHeader();
+                header.setFont(new Font("Arial", Font.BOLD, 13));
 
-                header.setFont(
-                                new Font("Arial", Font.BOLD, 13));
-
-                tabela.getColumnModel()
-                                .getColumn(0)
-                                .setPreferredWidth(130);
-
-                tabela.getColumnModel()
-                                .getColumn(1)
-                                .setPreferredWidth(120);
-
-                tabela.getColumnModel()
-                                .getColumn(2)
-                                .setPreferredWidth(300);
-
-                tabela.getColumnModel()
-                                .getColumn(3)
-                                .setPreferredWidth(120);
-
-                tabela.getColumnModel()
-                                .getColumn(4)
-                                .setPreferredWidth(120);
-
-                tabela.getColumnModel()
-                                .getColumn(5)
-                                .setPreferredWidth(220);
-
-                tabela.getColumnModel()
-                                .getColumn(6)
-                                .setPreferredWidth(220);
-
-                tabela.getColumnModel()
-                                .getColumn(7)
-                                .setPreferredWidth(300);
+                tabela.getColumnModel().getColumn(0).setPreferredWidth(130);
+                tabela.getColumnModel().getColumn(1).setPreferredWidth(180); 
+                tabela.getColumnModel().getColumn(2).setPreferredWidth(200); 
+                tabela.getColumnModel().getColumn(3).setPreferredWidth(120);
+                tabela.getColumnModel().getColumn(4).setPreferredWidth(120);
+                tabela.getColumnModel().getColumn(5).setPreferredWidth(220);
+                tabela.getColumnModel().getColumn(6).setPreferredWidth(220);
+                tabela.getColumnModel().getColumn(7).setPreferredWidth(300);
 
                 JScrollPane scrollPane = new JScrollPane(tabela);
 
-                lblSemMovimentacoes = new JLabel(
-                                "Nenhuma movimentação registrada.",
-                                SwingConstants.CENTER);
-
-                lblSemMovimentacoes.setFont(
-                                new Font("Arial", Font.BOLD, 16));
-
-                lblSemMovimentacoes.setForeground(
-                                Color.GRAY);
+                lblSemMovimentacoes = new JLabel("Nenhuma movimentação registrada.", SwingConstants.CENTER);
+                lblSemMovimentacoes.setFont(new Font("Arial", Font.BOLD, 16));
+                lblSemMovimentacoes.setForeground(Color.GRAY);
 
                 JPanel painelTabela = new JPanel(new BorderLayout());
+                painelTabela.setBorder(BorderFactory.createTitledBorder("Histórico de Movimentações"));
+                painelTabela.add(scrollPane, BorderLayout.CENTER);
+                painelTabela.add(lblSemMovimentacoes, BorderLayout.SOUTH);
 
-                painelTabela.setBorder(
-                                BorderFactory.createTitledBorder(
-                                                "Histórico de Movimentações"));
-
-                painelTabela.add(
-                                scrollPane,
-                                BorderLayout.CENTER);
-
-                painelTabela.add(
-                                lblSemMovimentacoes,
-                                BorderLayout.SOUTH);
-
-                add(
-                                painelTabela,
-                                BorderLayout.CENTER);
-
-                // =========================
-                // EVENTOS
-                // =========================
+                add(painelTabela, BorderLayout.CENTER);
 
                 btnResponsaveis.addActionListener(e -> {
-
-                        FormResponsavel tela = new FormResponsavel(
-                                        responsavelService);
-
-                        tela.setDefaultCloseOperation(
-                                        JFrame.DISPOSE_ON_CLOSE);
-
+                        FormResponsavel tela = new FormResponsavel(responsavelService);
                         tela.addWindowListener(
                                         new WindowAdapter() {
-
                                                 @Override
-                                                public void windowClosed(
-                                                                WindowEvent e) {
-
+                                                public void windowClosed(WindowEvent e) {
                                                         carregarTabela();
                                                 }
                                         });
                 });
 
                 btnPatrimonios.addActionListener(e -> {
-
-                        FormPatrimonio tela = new FormPatrimonio(
-                                        responsavelService,
-                                        patrimonioService);
-
-                        tela.setDefaultCloseOperation(
-                                        JFrame.DISPOSE_ON_CLOSE);
-
+                        FormPatrimonio tela = new FormPatrimonio(responsavelService, patrimonioService);
                         tela.addWindowListener(
                                         new WindowAdapter() {
-
                                                 @Override
-                                                public void windowClosed(
-                                                                WindowEvent e) {
-
+                                                public void windowClosed(WindowEvent e) {
                                                         carregarTabela();
                                                 }
                                         });
                 });
 
                 carregarTabela();
-
                 setVisible(true);
         }
 
         private void carregarTabela() {
-
                 modelo.setRowCount(0);
 
                 List<MovimentacaoPatrimonio> lista = movimentacaoService.findAll();
 
                 if (lista.isEmpty()) {
-
                         lblSemMovimentacoes.setVisible(true);
                         return;
                 }
 
                 lblSemMovimentacoes.setVisible(false);
 
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern(
-                                "dd/MM/yyyy HH:mm");
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
                 for (MovimentacaoPatrimonio mov : lista) {
-
                         modelo.addRow(new Object[] {
-                                        mov.getDataMovimentacao()
-                                                        .format(formatter),
-
-                                        mov.getTipoMovimentacao()
-                                                        .getDescricao(),
-
-                                        obterDescricaoPatrimonio(
-                                                        mov.getIdPatrimonio()),
-
-                                        mov.getStatusAnterior() != null
-                                                        ? mov.getStatusAnterior()
-                                                                        .getDescricao()
-                                                        : "-",
-
-                                        mov.getStatusAtual() != null
-                                                        ? mov.getStatusAtual()
-                                                                        .getDescricao()
-                                                        : "-",
-
-                                        obterNomeResponsavel(
-                                                        mov.getIdResponsavelAnterior()),
-
-                                        obterNomeResponsavel(
-                                                        mov.getIdResponsavelAtual()),
-
-                                        mov.getObservacao() != null
-                                                        ? mov.getObservacao()
-                                                        : "-"
+                                        mov.getDataMovimentacao().format(formatter),
+                                        mov.getTipoMovimentacao().getDescricao(),
+                                        obterDescricaoPatrimonio(mov.getIdPatrimonio()),
+                                        mov.getStatusAnterior() != null ? mov.getStatusAnterior().getDescricao() : "-",
+                                        mov.getStatusAtual() != null ? mov.getStatusAtual().getDescricao() : "-",
+                                        obterNomeResponsavel(mov.getIdResponsavelAnterior()),
+                                        obterNomeResponsavel(mov.getIdResponsavelAtual()),
+                                        mov.getObservacao() != null ? mov.getObservacao() : "-"
                         });
                 }
         }
 
-        private String obterDescricaoPatrimonio(
-                        Long idPatrimonio) {
-
+        private String obterDescricaoPatrimonio(Long idPatrimonio) {
                 if (idPatrimonio == null) {
                         return "-";
                 }
 
-                Patrimonio patrimonio = patrimonioService.findById(
-                                idPatrimonio);
+                Patrimonio patrimonio = patrimonioService.findById(idPatrimonio);
 
                 if (patrimonio == null) {
                         return "-";
                 }
 
-                return patrimonio.getDescricao()
-                                + " ("
-                                + patrimonio.getNumeroPatrimonio()
-                                + ")";
+                return patrimonio.getDescricao() + " (" + patrimonio.getNumeroPatrimonio() + ")";
         }
 
-        private String obterNomeResponsavel(
-                        Long idResponsavel) {
-
+        private String obterNomeResponsavel(Long idResponsavel) {
                 if (idResponsavel == null) {
                         return "-";
                 }
 
-                Responsavel responsavel = responsavelService.findById(
-                                idResponsavel);
-
-                return responsavel != null
-                                ? responsavel.getNomeCompleto()
-                                : "-";
+                Responsavel responsavel = responsavelService.findById(idResponsavel);
+                return responsavel != null ? responsavel.getNomeCompleto() : "-";
         }
 }

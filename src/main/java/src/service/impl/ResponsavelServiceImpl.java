@@ -2,8 +2,11 @@ package src.service.impl;
 
 import java.util.List;
 
+import src.model.Patrimonio;
 import src.model.Responsavel;
 import src.dao.ResponsavelDao;
+import src.enums.StatusPatrimonioEnum;
+import src.enums.StatusResponsavelEnum;
 import src.utils.JOptionPaneUtils;
 import src.service.PatrimonioService;
 import src.service.ResponsavelService;
@@ -24,22 +27,41 @@ public class ResponsavelServiceImpl implements ResponsavelService {
     }
 
     @Override
-    public List<Responsavel> findAll(){
+    public List<Responsavel> findAll() {
         return responsavelDao.findAll();
     }
-    
+
     @Override
-    public Responsavel findById(Long id){
+    public Responsavel findById(Long id) {
         return responsavelDao.findById(id);
     }
 
     @Override
     public void saveOrUpdate(Responsavel responsavel) {
         if (responsavel.getId() != null) {
+            Responsavel responsavelAnterior = responsavelDao.findById(responsavel.getId());
+
+            boolean foiInativado = responsavelAnterior.getStatus().equals(StatusResponsavelEnum.ATIVO) 
+                                        && responsavel.getStatus().equals(StatusResponsavelEnum.INATIVO);
+
+            if (foiInativado) {
+                List<Patrimonio> patrimonios = patrimonioService.findAll();
+
+                for (Patrimonio patrimonio : patrimonios) {
+                    if (java.util.Objects.equals(patrimonio.getIdResponsavel(), responsavel.getId())) {
+                        patrimonio.setIdResponsavel(null);
+                        patrimonio.setStatus(StatusPatrimonioEnum.DISPONIVEL);
+                        patrimonioService.saveOrUpdate(patrimonio, true);
+                    }
+                }
+            }
+
             responsavelDao.update(responsavel);
         } else {
             responsavelDao.save(responsavel);
         }
+
+        JOptionPaneUtils.showOkDialog("Responsável salvo com sucesso.");
     }
 
     @Override
@@ -60,5 +82,7 @@ public class ResponsavelServiceImpl implements ResponsavelService {
 
         movimentacaoPatrimonioService.deleteByResponsavelAnteriorOrAtual(id);
         responsavelDao.deleteById(id);
+
+        JOptionPaneUtils.showOkDialog("Responsável excluído com sucesso.");
     }
 }

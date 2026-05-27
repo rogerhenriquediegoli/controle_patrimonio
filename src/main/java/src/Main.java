@@ -3,14 +3,11 @@ package src;
 import javax.swing.JOptionPane;
 
 import src.views.Dashboard;
-import src.dao.PatrimonioDao;
-import src.dao.ResponsavelDao;
 import src.repository.DbSession;
 import src.service.PatrimonioService;
 import src.service.ResponsavelService;
 import src.dao.impl.PatrimonioDaoImpl;
 import src.dao.impl.ResponsavelDaoImpl;
-import src.dao.MovimentacaoPatrimonioDao;
 import src.service.impl.PatrimonioServiceImpl;
 import src.service.impl.ResponsavelServiceImpl;
 import src.service.MovimentacaoPatrimonioService;
