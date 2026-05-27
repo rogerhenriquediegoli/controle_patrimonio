@@ -17,6 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JButton;
+import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
 import javax.swing.BorderFactory;
 import javax.swing.SwingConstants;
@@ -48,6 +49,8 @@ public class Dashboard extends JFrame {
         public Dashboard(ResponsavelService responsavelService,
                         PatrimonioService patrimonioService,
                         MovimentacaoPatrimonioService movimentacaoService) {
+
+                setIconImage(new ImageIcon(getClass().getResource("/IconPatrimonio.png")).getImage());
 
                 this.responsavelService = responsavelService;
                 this.patrimonioService = patrimonioService;
