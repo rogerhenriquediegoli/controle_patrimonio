@@ -1,5 +1,9 @@
 # Controle de Patrimônio
 
+<p align="center">
+  <img src="https://github.com/rogerhenriquediegoli/controle_patrimonio/releases/download/v1.0.0/DASHBOARD.png" alt="Dashboard do Sistema" width="900">
+</p>
+
 Sistema de Gestão Patrimonial desenvolvido em Java, com interface gráfica em Swing e banco de dados MySQL. A aplicação oferece funcionalidades para cadastro e gerenciamento de patrimônios e responsáveis, além da gravação automática de movimentações, proporcionando maior controle, rastreabilidade e histórico das ações realizadas sobre os ativos.
 
 ## Visão geral do projeto
